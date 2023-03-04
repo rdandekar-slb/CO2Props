@@ -1,4 +1,5 @@
 import sys
+import matplotlib.pyplot as plt
 
 def co2_density(pressure, temperature):
     temperature = (temperature-32.0)/1.8
@@ -38,6 +39,11 @@ def co2_density(pressure, temperature):
 
 
 if __name__ == "__main__":
-    pressure = 1100
+#     pressure = 1100
     temperature = 100
-    print(co2_density(pressure, temperature))
+    pressure=[]
+    co2_rho=[]
+    pressure=[1100+i*100 for i in range(50)]
+    for p in pressure:
+        co2_rho.append(co2_density(p,temperature))
+    plt.plot(pressure,co2_rho)
