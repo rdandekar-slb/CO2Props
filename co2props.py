@@ -2,6 +2,8 @@ import sys
 import matplotlib.pyplot as plt
 
 def co2_density(pressure, temperature):
+    if pressure<1100:
+        return -9999.99
     temperature = (temperature-32.0)/1.8
     a = []
     if pressure < 3000:
@@ -31,19 +33,24 @@ def co2_density(pressure, temperature):
     
     a = [(b0[i]+b1[i]*temperature+b2[i]*temperature*temperature + b3[i]
           * pow(temperature, 3)+b4[i]*pow(temperature, 4)) for i in range(5)]
-    for x in a:
-         print(x)
+#     for x in a:
+#          print(x)
     rho = a[0]+a[1]*pressure+a[2]*pressure*pressure + \
         a[3]*pow(pressure, 3)+a[4]*pow(pressure, 4)
+    rho *= 0.062428
     return rho
 
 
 if __name__ == "__main__":
 #     pressure = 1100
-    temperature = 100
-    pressure=[]
+    temperature = 210.92
+    pressure=[5850]
     co2_rho=[]
-    pressure=[1100+i*100 for i in range(50)]
+#     pressure=[1100+i*100 for i in range(50)]
     for p in pressure:
         co2_rho.append(co2_density(p,temperature))
-    plt.plot(pressure,co2_rho)
+#     plt.plot(pressure,co2_rho)
+#     plt.show()
+    for p,rho in zip(pressure, co2_rho):
+        print(p,rho)
+
