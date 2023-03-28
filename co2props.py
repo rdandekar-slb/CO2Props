@@ -3,7 +3,7 @@ import math
 import matplotlib.pyplot as plt
 
 
-def co2_solubility(pressure, temperature):
+def co2_solubility(pressure, temperature,salinity):
       ai=[1.163, -16.630, 111.073, -376.589, 524.889]
       bi=[0.965, -0.272,0.0923, -0.1008, 0.0998]
       ci=[1.280,-10.757,52.696,-222.395,462.672]
@@ -22,6 +22,7 @@ def co2_solubility(pressure, temperature):
             m=math.sin(m)+(m/(c*p0+1)*math.cos(m))
             m=a*(1-b*m)
             rsw=rsw0+m*(pressure-p0)
+      rsb=rsw*pow(10,-0.028*salinity*pow(temperature,-0.12))
       return rsw
 
 def co2_density(pressure, temperature):
@@ -71,13 +72,14 @@ if __name__ == "__main__":
 #     pressure = 1100
     temperature = 122
 #     pressure=[5850]
+    salinity_in_wt_percent=10
     
     co2_rho=[]
     co2_rsw=[]
     pressure=[100+i*100 for i in range(100)]
     for p in pressure:
         co2_rho.append(co2_density(p,temperature))
-        co2_rsw.append(co2_solubility(p,temperature))
+        co2_rsw.append(co2_solubility(p,temperature,salinity_in_wt_percent))
 
     for p,rho,rsw in zip(pressure, co2_rho, co2_rsw):
         print(p,rho,rsw)
