@@ -1,9 +1,34 @@
 import sys
+import math
 import matplotlib.pyplot as plt
+
+
+def co2_solubility(pressure, temperature):
+      ai=[1.163, -16.630, 111.073, -376.589, 524.889]
+      bi=[0.965, -0.272,0.0923, -0.1008, 0.0998]
+      ci=[1.280,-10.757,52.696,-222.395,462.672]
+      a=0
+      b=0
+      c=0
+      for i in range(5):
+            a+=ai[i]*pow(10,-3*i)*pow(temperature,i)
+            b+=bi[i]*pow(10,-3*i)*pow(temperature,i)
+            c+=ci[i]*pow(10,-3*i)*pow(temperature,i)
+      c=c*0.001
+      p0=(2/math.pi)*((math.asin(b*b))/(c*(1-((2/math.pi)*math.asin(b*b)))))
+      if pressure<p0:
+            rsw=a*pressure*(1-b*math.sin(math.pi/2 *((c*pressure)/(c*pressure+1))))
+      else:
+            rsw0=a*p0*(1-b*b*b)
+            m=(math.pi/2)*((c*p0)/(c*p0+1))
+            m=math.sin(m)+(m/(c*p0+1)*math.cos(m))
+            m=a*(1-b*m)
+            rsw=rsw0+m*(pressure-p0)
+      return rsw
 
 def co2_density(pressure, temperature):
     if pressure<1100:
-        return -9999.99
+        return None
     temperature = (temperature-32.0)/1.8
     a = []
     if pressure < 3000:
@@ -41,16 +66,27 @@ def co2_density(pressure, temperature):
     return rho
 
 
+
+
+
 if __name__ == "__main__":
 #     pressure = 1100
-    temperature = 210.92
-    pressure=[5850]
+    temperature = 122
+#     pressure=[5850]
+    
     co2_rho=[]
-#     pressure=[1100+i*100 for i in range(50)]
+    co2_rsw=[]
+    pressure=[100+i*100 for i in range(100)]
     for p in pressure:
         co2_rho.append(co2_density(p,temperature))
-#     plt.plot(pressure,co2_rho)
-#     plt.show()
-    for p,rho in zip(pressure, co2_rho):
-        print(p,rho)
+        co2_rsw.append(co2_solubility(p,temperature))
+
+    for p,rho,rsw in zip(pressure, co2_rho, co2_rsw):
+        print(p,rho,rsw)
+#     plt.plot(pressure,co2_rsw)
+    fig,axs=plt.subplots(2)
+    fig.suptitle('CO2 properties')
+    axs[0].plot(pressure, co2_rho)
+    axs[1].plot(pressure, co2_rsw)
+    plt.show()
 
