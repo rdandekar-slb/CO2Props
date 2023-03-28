@@ -7,9 +7,7 @@ def co2_solubility(pressure, temperature):
       ai=[1.163, -16.630, 111.073, -376.589, 524.889]
       bi=[0.965, -0.272,0.0923, -0.1008, 0.0998]
       ci=[1.280,-10.757,52.696,-222.395,462.672]
-      a=0
-      b=0
-      c=0
+      a = b = c = 0
       for i in range(5):
             a+=ai[i]*pow(10,-3*i)*pow(temperature,i)
             b+=bi[i]*pow(10,-3*i)*pow(temperature,i)
