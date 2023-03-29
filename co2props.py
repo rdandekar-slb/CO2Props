@@ -23,7 +23,7 @@ def co2_solubility(pressure, temperature,salinity):
             m=a*(1-b*m)
             rsw=rsw0+m*(pressure-p0)
       rsb=rsw*pow(10,-0.028*salinity*pow(temperature,-0.12))
-      return rsw
+      return rsb
 
 def co2_density(pressure, temperature):
     if pressure<1100:
