@@ -70,7 +70,7 @@ def co2_density(pressure, temperature):
 
 if __name__ == "__main__":
 #     pressure = 1100
-    temperature = 122
+    temperature = 150
 #     pressure=[5850]
     salinity_in_wt_percent=10
     
